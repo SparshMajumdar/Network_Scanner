@@ -7,7 +7,13 @@
 </head>
 <body>
   <div class="container">
-    <h1>📡 Network Scanner Dashboard</h1>
+    <div class="header">
+      <h1>📡 Network Scanner Dashboard</h1>
+      <label class="switch">
+        <input type="checkbox" id="modeToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
     
     <form method="POST">
       <input type="text" name="ip_range" placeholder="Enter IP Range (e.g. 192.168.1.0/24)" required>
@@ -39,5 +45,7 @@
     <p class="spoof">{{ spoof_status }}</p>
     {% endif %}
   </div>
+
+  <script src="{{ url_for('static', filename='darkmode.js') }}"></script>
 </body>
 </html>
