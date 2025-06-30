@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Network Security Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🔒 Network Security Scanner</h1>
+        <form method="POST">
+            <label for="iprange">Enter IP Range (e.g. 192.168.1.0/24):</label>
+            <input type="text" name="iprange" id="iprange" required>
+            <button type="submit">Scan</button>
+        </form>
+
+        {% if spoof_status %}
+            <div class="spoof-status">{{ spoof_status }}</div>
+        {% endif %}
+
+        {% if results %}
+        <h2>Scan Results</h2>
+        <table>
+            <tr>
+                <th>IP Address</th>
+                <th>MAC Address</th>
+                <th>Open Ports</th>
+                <th>Status</th>
+            </tr>
+            {% for device in results %}
+            <tr>
+                <td>{{ device.ip }}</td>
+                <td>{{ device.mac }}</td>
+                <td>{{ device.ports }}</td>
+                <td>{{ device.status }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+</body>
+</html>
