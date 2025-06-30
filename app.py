@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from scanner import scan
 from utils import scan_ports, check_security, detect_arp_spoof
+import ipaddress  # ✅ For validating IP range
 
 app = Flask(__name__)
 
@@ -8,13 +9,16 @@ app = Flask(__name__)
 def index():
     results = []
     spoof_status = ""
+    error_message = ""
+
     if request.method == "POST":
-        # ✅ Use .get with fallback and .strip to avoid None or whitespace issues
         ip_range = request.form.get("ip_range", "").strip()
 
-        if ip_range:  # ✅ Prevent crash if field is empty
-            devices = scan(ip_range)
+        try:
+            # ✅ Validate input using ipaddress module
+            ipaddress.ip_network(ip_range, strict=False)
 
+            devices = scan(ip_range)
             for device in devices:
                 ports = scan_ports(device["ip"])
                 status = check_security(ports)
@@ -26,10 +30,11 @@ def index():
                 })
 
             spoof_status = detect_arp_spoof(devices)
-        else:
-            spoof_status = "❗ Please enter a valid IP range."
 
-    return render_template("index.html", results=results, spoof_status=spoof_status)
+        except ValueError:
+            error_message = "❌ Invalid IP range. Use format like 192.168.1.0/24."
+
+    return render_template("index.html", results=results, spoof_status=spoof_status, error_message=error_message)
 
 if __name__ == "__main__":
     app.run(debug=True)

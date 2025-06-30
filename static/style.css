@@ -75,3 +75,9 @@ tr:nth-child(even) {
   font-weight: bold;
   color: #cc0000;
 }
+.error {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 15px;
+}
