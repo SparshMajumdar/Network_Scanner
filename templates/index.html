@@ -14,7 +14,7 @@
       <button type="submit">Scan</button>
     </form>
 
-    {% if devices %}
+    {% if results %}
     <h2>🖥️ Devices Found:</h2>
     <table>
       <thead>
@@ -26,7 +26,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for device in devices %}
+        {% for device in results %}
         <tr>
           <td>{{ device.ip }}</td>
           <td>{{ device.mac }}</td>
