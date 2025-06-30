@@ -9,20 +9,25 @@ def index():
     results = []
     spoof_status = ""
     if request.method == "POST":
-        ip_range = request.form.get("iprange")
-        devices = scan(ip_range)
+        # ✅ Use .get with fallback and .strip to avoid None or whitespace issues
+        ip_range = request.form.get("ip_range", "").strip()
 
-        for device in devices:
-            ports = scan_ports(device["ip"])
-            status = check_security(ports)
-            results.append({
-                "ip": device["ip"],
-                "mac": device["mac"],
-                "ports": ports,
-                "status": status
-            })
+        if ip_range:  # ✅ Prevent crash if field is empty
+            devices = scan(ip_range)
 
-        spoof_status = detect_arp_spoof(devices)
+            for device in devices:
+                ports = scan_ports(device["ip"])
+                status = check_security(ports)
+                results.append({
+                    "ip": device["ip"],
+                    "mac": device["mac"],
+                    "ports": ports,
+                    "status": status
+                })
+
+            spoof_status = detect_arp_spoof(devices)
+        else:
+            spoof_status = "❗ Please enter a valid IP range."
 
     return render_template("index.html", results=results, spoof_status=spoof_status)
 
