@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from scanner import scan
 from utils import scan_ports, check_security, detect_arp_spoof
-import ipaddress  # ✅ For validating IP range
+import ipaddress  # For validating IP range
 
 app = Flask(__name__)
 
@@ -15,7 +15,7 @@ def index():
         ip_range = request.form.get("ip_range", "").strip()
 
         try:
-            # ✅ Validate input using ipaddress module
+            # Validate input using ipaddress module
             ipaddress.ip_network(ip_range, strict=False)
 
             devices = scan(ip_range)

@@ -14,12 +14,12 @@
       <button type="submit">Scan</button>
     </form>
 
-    <!-- ✅ Error message -->
+    <!-- Error message -->
     {% if error_message %}
       <p class="error">{{ error_message }}</p>
     {% endif %}
 
-    <!-- ✅ Display results if devices found -->
+    <!-- Display results if devices found -->
     {% if results %}
     <h2>🖥️ Devices Found:</h2>
     <table>
@@ -43,7 +43,7 @@
       </tbody>
     </table>
 
-    <!-- ✅ Show spoof detection status -->
+    <!--  Show spoof detection status -->
     <p class="spoof">{{ spoof_status }}</p>
     {% endif %}
   </div>
